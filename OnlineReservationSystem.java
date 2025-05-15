@@ -184,8 +184,7 @@ public class OnlineReservationSystem {
             }
         }
         
-        // This method would typically fetch from a database
-        // Here we're simulating it for the requirement
+      
         private String getTrainNameFromNumber(String trainNumber) {
             // In a real application, this would query the database
             // For now, we'll use some predefined mappings
@@ -214,7 +213,7 @@ public class OnlineReservationSystem {
             try {
                 Date inputDate = dateFormat.parse(dateStr);
                 Date today = new Date();
-                // Reset time portion for accurate date comparison
+ 
                 today.setHours(0);
                 today.setMinutes(0);
                 today.setSeconds(0);
@@ -228,13 +227,13 @@ public class OnlineReservationSystem {
     // Database setup
     private static void setupDatabase() {
         try {
-            // Create trains table if not exists
+    
             Statement statement = connection.createStatement();
             statement.execute("CREATE TABLE IF NOT EXISTS trains (" +
                     "train_number VARCHAR(10) PRIMARY KEY, " +
                     "train_name VARCHAR(100) NOT NULL)");
                     
-            // Create reservations table if not exists
+          
             statement.execute("CREATE TABLE IF NOT EXISTS reservations (" +
                     "pnr_number INT PRIMARY KEY, " +
                     "passenger_name VARCHAR(100) NOT NULL, " +
@@ -245,7 +244,7 @@ public class OnlineReservationSystem {
                     "from_location VARCHAR(100) NOT NULL, " +
                     "to_location VARCHAR(100) NOT NULL)");
                     
-            // Insert some sample train data if table is empty
+
             ResultSet rs = statement.executeQuery("SELECT COUNT(*) FROM trains");
             rs.next();
             if (rs.getInt(1) == 0) {
@@ -260,7 +259,7 @@ public class OnlineReservationSystem {
         }
     }
     
-    // Display main menu
+
     private static void displayMainMenu() {
         System.out.println("\n======= ONLINE RESERVATION SYSTEM =======");
         System.out.println("1. Make New Reservation");
@@ -285,7 +284,7 @@ public class OnlineReservationSystem {
         PnrRecord record = new PnrRecord();
         int pnrNumber = record.generatePnrNumber();
         
-        // Check if PNR already exists, regenerate if needed
+
         while (pnrExists(pnrNumber)) {
             pnrNumber = record.generatePnrNumber();
         }
@@ -346,8 +345,7 @@ public class OnlineReservationSystem {
             System.out.println("Invalid PNR format. Please enter a numeric PNR.");
             return;
         }
-        
-        // First check if the PNR exists and show details
+
         String selectQuery = "SELECT * FROM reservations WHERE pnr_number = ?";
         
         try (PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
@@ -372,7 +370,7 @@ public class OnlineReservationSystem {
                 String confirmation = scanner.nextLine().trim().toUpperCase();
                 
                 if (confirmation.equals("Y")) {
-                    // Process cancellation
+
                     String deleteQuery = "DELETE FROM reservations WHERE pnr_number = ?";
                     
                     try (PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery)) {
